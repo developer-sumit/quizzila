@@ -6,11 +6,19 @@ import mongoose from "mongoose";
 
 // ROUTES
 import authRoutes from "./routes/auth.route";
+import userRoutes from "./routes/user.route";
+import { authenticateToken } from "./middleware/auth.middleware";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8000;
+const mongoURI = process.env.MONGO_URI || "";
+
+if (!mongoURI) {
+  console.error("Internal Server Error");
+  process.exit(1); // Exit the process with failure
+}
 
 const corsOptions = {
   origin: "*",
@@ -23,14 +31,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 
 app.use("/api/auth", authRoutes);
-
-if (!process.env.MONGO_URI) {
-  throw new Error("MONGO_URI is required");
-}
+app.use("/api/user", authenticateToken, userRoutes);
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(mongoURI)
   .then(() => console.log("MongoDB connected"))
   .catch((error) => console.log("MongoDB connection error:", error));
 
