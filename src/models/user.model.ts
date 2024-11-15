@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
+import { UserProps } from "../types/user.type";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<UserProps & Document>({
   username: { type: String, required: true, unique: true, trim: true },
   email: { type: String, required: true, unique: true, trim: true },
   password: { type: String, required: true },

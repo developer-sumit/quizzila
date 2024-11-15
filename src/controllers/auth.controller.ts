@@ -16,7 +16,7 @@ export const register: RequestHandler = async (
     const newUser = new User({ username, email, password });
     await newUser.save();
 
-    const token = generateToken(newUser._id as unknown as string);
+    const token = generateToken(newUser._id as string);
 
     res.status(200).json({
       status: 200,
@@ -45,6 +45,7 @@ export const login: RequestHandler = async (
 
   try {
     const { email, password } = req.body;
+
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -61,11 +62,14 @@ export const login: RequestHandler = async (
         .json({ status: 400, success: false, message: "Invalid credentials" });
       return;
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    res.json({ token });
+
+    const token = generateToken(user._id as string);
+    res
+      .status(200)
+      .json({ status: 200, success: true, token, user, message: "Logged in" });
   } catch (error) {
-    res.status(500).json({ error: "Error logging in" });
+    res
+      .status(500)
+      .json({ status: 500, success: false, message: "Error logging in" });
   }
 };

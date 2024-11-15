@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "quizzilla-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "start": "nodemon"
   },
   "keywords": [],
-  "author": "",
+  "author": "Sumit Singh Rathore",
   "license": "ISC",
   "dependencies": {
     "@types/express": "^5.0.0",

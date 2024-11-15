@@ -13,9 +13,9 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 const corsOptions = {
-  origin: "*", // Allow only this origin
-  methods: ["GET", "POST"], // Allow only specific methods
-  allowedHeaders: ["Content-Type", "Authorization"], // Allow only specific headers
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(express.json());
